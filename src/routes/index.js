@@ -105,6 +105,7 @@ import {
   TambahCostumer,
   TambahKeuangan,
   CekDetailCostumer,
+  ShowWeb,
 } from '../pages';
 import {colors} from '../utils';
 import {Icon} from 'react-native-elements';
@@ -128,10 +129,18 @@ const MainApp = () => {
 
 export default function Router() {
   return (
-    <Stack.Navigator initialRouteName="DetailCostumer">
+    <Stack.Navigator initialRouteName="Splash">
       <Stack.Screen
         name="Splash"
         component={Splash}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+      <Stack.Screen
+        name="ShowWeb"
+        component={ShowWeb}
         options={{
           headerShown: false,
         }}
@@ -143,17 +152,15 @@ export default function Router() {
         options={{
           headerShown: false,
         }}
-        
       />
 
-          <Stack.Screen
+      <Stack.Screen
         name="CekDetailCostumer"
         component={CekDetailCostumer}
         options={{
           headerShown: false,
         }}
       />
-
 
       <Stack.Screen
         name="TambahKostumer"
@@ -163,7 +170,6 @@ export default function Router() {
         }}
       />
 
-      
       <Stack.Screen
         name="TambahKeuangan"
         component={TambahKeuangan}
@@ -171,8 +177,6 @@ export default function Router() {
           headerShown: false,
         }}
       />
-
-
 
       <Stack.Screen
         name="PelangganAdd"

@@ -131,7 +131,15 @@ export default function ({navigation, route}) {
                 alignItems: 'center',
               }}></View>
             <View style={{padding: 10}}>
-              <MyList label="Nama Lengkap" value={user.nama_lengkap} />
+              <MyList label="Level" value={user.level} />
+              <MyList
+                label="Nama Lengkap"
+                value={
+                  user.level == 'Petugas'
+                    ? user.nama_petugas
+                    : user.nama_lengkap
+                }
+              />
               <MyList label="Username" value={user.username} />
             </View>
             {/* data detail */}
@@ -141,11 +149,11 @@ export default function ({navigation, route}) {
           style={{
             padding: 20,
           }}>
-          <MyButton
+          {/* <MyButton
             warna={colors.primary}
             title="Edit Profile"
             onPress={() => navigation.navigate('AccountEdit', user)}
-          />
+          /> */}
           <MyGap jarak={10} />
           <MyButton
             onPress={btnKeluar}

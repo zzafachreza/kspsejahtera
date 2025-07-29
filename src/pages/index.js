@@ -50,12 +50,14 @@ import DetialCostumer from './DetailCostumer';
 import TambahCostumer from './DetailCostumer/addcostumer';
 import TambahKeuangan from './DetailCostumer/keuangan';
 import CekDetailCostumer from './DetailCostumer/detail';
+import ShowWeb from './Menu/ShowWeb';
 
 // NEW
 
 export {
   Splash,
   Profit,
+  ShowWeb,
   Pelanggan,
   PelangganEdit,
   PelangganAdd,
@@ -100,13 +102,10 @@ export {
   DataLaporan,
   BackupRestore,
   Royalti,
-Checkout,
-ProdukDetail,
-DetialCostumer,
-TambahCostumer,
-TambahKeuangan,
-CekDetailCostumer
-
-
-
+  Checkout,
+  ProdukDetail,
+  DetialCostumer,
+  TambahCostumer,
+  TambahKeuangan,
+  CekDetailCostumer,
 };

@@ -4,16 +4,17 @@ import {colors, fonts, windowWidth} from '../../utils';
 import {useToast} from 'react-native-toast-notifications';
 import moment from 'moment';
 import FastImage from 'react-native-fast-image';
-import {MyButton, MyGap, MyInput} from '../../components';
+import {MyButton, MyGap, MyInput, MyPicker, MyRadio} from '../../components';
 import {useState} from 'react';
 import SoundPlayer from 'react-native-sound-player';
 import axios from 'axios';
 import {apiURL, storeData} from '../../utils/localStorage';
 import MyLoading from '../../components/MyLoading';
 import {TouchableOpacity} from 'react-native';
-import { Image } from 'react-native';
+import {Image} from 'react-native';
 export default function Login({navigation, route}) {
   const [kirim, setKirim] = useState({
+    level: 'Petugas',
     username: '',
     password: '',
   });
@@ -38,7 +39,10 @@ export default function Login({navigation, route}) {
         setTimeout(() => {
           setLoading(false);
           if (res.data.status == 200) {
-            storeData('user', res.data.data);
+            storeData('user', {
+              ...res.data.data,
+              level: kirim.level,
+            });
             navigation.replace('MainApp');
           } else {
             toast.show(res.data.message);
@@ -79,7 +83,16 @@ export default function Login({navigation, route}) {
           }}>
           Masuk
         </Text>
-
+        <MyRadio
+          label="Petugas"
+          onPress={x => updateKirim('level', 'Petugas')}
+          selected={kirim.level == 'Petugas' ? true : false}
+        />
+        <MyRadio
+          label="Pengurus"
+          onPress={x => updateKirim('level', 'Pengurus')}
+          selected={kirim.level == 'Pengurus' ? true : false}
+        />
         <MyInput
           value={kirim.username}
           onChangeText={x => updateKirim('username', x)}
@@ -99,29 +112,6 @@ export default function Login({navigation, route}) {
         <MyGap jarak={20} />
         {!loading && <MyButton onPress={sendData} title="MASUK" />}
         {loading && <MyLoading />}
-        <TouchableOpacity
-          onPress={() => navigation.navigate('Register')}
-          style={{
-            marginTop: 10,
-            justifyContent: 'center',
-            alignItems: 'center',
-            padding: 15,
-          }}>
-          <Text
-            style={{
-              fontFamily: fonts.secondary[600],
-              fontSize: 14,
-            }}>
-            Belum punya akun ?{' '}
-            <Text
-              style={{
-                color: colors.primary,
-                fontFamily: fonts.secondary[800],
-              }}>
-              Daftar disini
-            </Text>
-          </Text>
-        </TouchableOpacity>
       </View>
     </View>
   );
