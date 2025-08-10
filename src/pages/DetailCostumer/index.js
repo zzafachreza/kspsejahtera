@@ -10,6 +10,7 @@ import {
   Pressable,
   FlatList,
   Alert,
+  TextInput,
 } from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import {Card, Icon} from 'react-native-elements';
@@ -26,6 +27,7 @@ export default function DetialCostumer({navigation}) {
   // Data dummy customer
   const [data, setData] = useState([]);
   const [user, setUser] = useState({});
+  const [TMP, setTMP] = useState([]);
   const getTransaksi = () => {
     try {
       setLoading(true);
@@ -58,6 +60,19 @@ export default function DetialCostumer({navigation}) {
   const toast = useToast();
   const [loading, setLoading] = useState(false);
 
+  const filterAnggota = (data, searchTerm) => {
+    if (!searchTerm) return data;
+
+    const filtered = data.filter(pelanggan => {
+      const nama = pelanggan.nama_anggota.toLowerCase();
+      const telepon = pelanggan.telepon_anggota;
+      const search = searchTerm.toLowerCase();
+      return nama.includes(search) || telepon.includes(search);
+    });
+
+    setData(filtered);
+  };
+
   return (
     <View
       style={{
@@ -71,6 +86,26 @@ export default function DetialCostumer({navigation}) {
           flex: 1,
           padding: 10,
         }}>
+        <View>
+          <TextInput
+            onChangeText={x => {
+              if (x.length == 0) {
+                setData(TMP);
+              } else {
+                filterAnggota(data, x);
+              }
+            }}
+            placeholder="Pencarian . . ."
+            style={{
+              paddingLeft: 10,
+              fontFamily: fonts.secondary[600],
+              backgroundColor: colors.primary + '21',
+              borderRadius: 10,
+              height: 40,
+              marginBottom: 10,
+            }}
+          />
+        </View>
         <FlatList
           data={data}
           renderItem={({item, index}) => {
@@ -124,29 +159,30 @@ export default function DetialCostumer({navigation}) {
                         </Text>
                       </View>
                     </View>
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                      }}>
+                    {user.level == 'Pengurus' && (
                       <View
                         style={{
-                          flex: 1,
+                          flexDirection: 'row',
                         }}>
-                        <MyButton
-                          title="Edit"
-                          onPress={() =>
-                            navigation.navigate('ShowWeb', {
-                              link: webURL + 'anggota/edit2/' + item.id_anggota,
-                              judul: 'Edit Anggota',
-                            })
-                          }
-                        />
-                      </View>
-                      <View
-                        style={{
-                          flex: 1,
-                        }}>
-                        {user.level == 'Pengurus' && (
+                        <View
+                          style={{
+                            flex: 1,
+                          }}>
+                          <MyButton
+                            title="Edit"
+                            onPress={() =>
+                              navigation.navigate('ShowWeb', {
+                                link:
+                                  webURL + 'anggota/edit2/' + item.id_anggota,
+                                judul: 'Edit Anggota',
+                              })
+                            }
+                          />
+                        </View>
+                        <View
+                          style={{
+                            flex: 1,
+                          }}>
                           <MyButton
                             title="Hapus"
                             warna="red"
@@ -181,9 +217,9 @@ export default function DetialCostumer({navigation}) {
                               );
                             }}
                           />
-                        )}
+                        </View>
                       </View>
-                    </View>
+                    )}
                   </Card>
                 </View>
               </TouchableNativeFeedback>
@@ -199,7 +235,12 @@ export default function DetialCostumer({navigation}) {
           title="Tambah Anggota"
           onPress={() =>
             navigation.navigate('ShowWeb', {
-              link: webURL + 'anggota/add2/' + user.id_petugas,
+              link:
+                webURL +
+                'anggota/add2/' +
+                user.id_petugas +
+                '?level=' +
+                user.level,
               judul: 'Tambah Anggota',
             })
           }

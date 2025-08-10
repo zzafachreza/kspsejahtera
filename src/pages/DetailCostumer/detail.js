@@ -78,15 +78,17 @@ export default function CekDetailCostumer({navigation, route}) {
         style={{
           paddingVertical: 10,
         }}>
-        <MyButton
-          title="Tambah Tabungan"
-          onPress={() => {
-            navigation.navigate('ShowWeb', {
-              link: webURL + 'tabungan/add2/' + ITEM.id_anggota,
-              judul: 'Tambah Tabungan',
-            });
-          }}
-        />
+        {user.level == 'Pengurus' && (
+          <MyButton
+            title="Tambah Tabungan"
+            onPress={() => {
+              navigation.navigate('ShowWeb', {
+                link: webURL + 'tabungan/add2/' + ITEM.id_anggota,
+                judul: 'Tambah Tabungan',
+              });
+            }}
+          />
+        )}
       </View>
       {data.tabungan.map((item, index) => (
         <View key={item.id_tabungan} style={styles.itemCard}>
@@ -115,29 +117,29 @@ export default function CekDetailCostumer({navigation, route}) {
               {item.tipe_tabungan}
             </Text>
           </View>
-          <View
-            style={{
-              flexDirection: 'row',
-            }}>
+          {user.level == 'Pengurus' && (
             <View
               style={{
-                flex: 1,
+                flexDirection: 'row',
               }}>
-              <MyButton
-                title="Edit"
-                onPress={() =>
-                  navigation.navigate('ShowWeb', {
-                    link: webURL + 'tabungan/edit2/' + item.id_tabungan,
-                    judul: 'Edit Tabungan',
-                  })
-                }
-              />
-            </View>
-            <View
-              style={{
-                flex: 1,
-              }}>
-              {user.level == 'Pengurus' && (
+              <View
+                style={{
+                  flex: 1,
+                }}>
+                <MyButton
+                  title="Edit"
+                  onPress={() =>
+                    navigation.navigate('ShowWeb', {
+                      link: webURL + 'tabungan/edit2/' + item.id_tabungan,
+                      judul: 'Edit Tabungan',
+                    })
+                  }
+                />
+              </View>
+              <View
+                style={{
+                  flex: 1,
+                }}>
                 <MyButton
                   title="Hapus"
                   warna="red"
@@ -168,9 +170,9 @@ export default function CekDetailCostumer({navigation, route}) {
                     ]);
                   }}
                 />
-              )}
+              </View>
             </View>
-          </View>
+          )}
         </View>
       ))}
     </View>
@@ -182,15 +184,17 @@ export default function CekDetailCostumer({navigation, route}) {
         style={{
           paddingVertical: 10,
         }}>
-        <MyButton
-          title="Tambah Simpanan"
-          onPress={() => {
-            navigation.navigate('ShowWeb', {
-              link: webURL + 'simpanan/add2/' + ITEM.id_anggota,
-              judul: 'Tambah Simpanan',
-            });
-          }}
-        />
+        {user.level == 'Pengurus' && (
+          <MyButton
+            title="Tambah Simpanan"
+            onPress={() => {
+              navigation.navigate('ShowWeb', {
+                link: webURL + 'simpanan/add2/' + ITEM.id_anggota,
+                judul: 'Tambah Simpanan',
+              });
+            }}
+          />
+        )}
       </View>
       {data.simpanan.map((item, index) => (
         <View key={item.id_simpanan} style={styles.itemCard}>
@@ -219,29 +223,30 @@ export default function CekDetailCostumer({navigation, route}) {
               {item.tipe_simpanan}
             </Text>
           </View>
-          <View
-            style={{
-              flexDirection: 'row',
-            }}>
+
+          {user.level == 'Pengurus' && (
             <View
               style={{
-                flex: 1,
+                flexDirection: 'row',
               }}>
-              <MyButton
-                title="Edit"
-                onPress={() =>
-                  navigation.navigate('ShowWeb', {
-                    link: webURL + 'simpanan/edit2/' + item.id_simpanan,
-                    judul: 'Edit Simpanan',
-                  })
-                }
-              />
-            </View>
-            <View
-              style={{
-                flex: 1,
-              }}>
-              {user.level == 'Pengurus' && (
+              <View
+                style={{
+                  flex: 1,
+                }}>
+                <MyButton
+                  title="Edit"
+                  onPress={() =>
+                    navigation.navigate('ShowWeb', {
+                      link: webURL + 'simpanan/edit2/' + item.id_simpanan,
+                      judul: 'Edit Simpanan',
+                    })
+                  }
+                />
+              </View>
+              <View
+                style={{
+                  flex: 1,
+                }}>
                 <MyButton
                   title="Hapus"
                   warna="red"
@@ -272,9 +277,9 @@ export default function CekDetailCostumer({navigation, route}) {
                     ]);
                   }}
                 />
-              )}
+              </View>
             </View>
-          </View>
+          )}
         </View>
       ))}
     </View>
@@ -286,16 +291,31 @@ export default function CekDetailCostumer({navigation, route}) {
         style={{
           paddingVertical: 10,
         }}>
-        <MyButton
-          title="Tambah Pinjaman"
-          onPress={() => {
-            navigation.navigate('ShowWeb', {
-              link: webURL + 'pinjaman/add2/' + ITEM.id_anggota,
-              judul: 'Tambah Pinjaman',
-            });
-          }}
-        />
+        {ITEM.boleh_pinjam > 0 && (
+          <MyButton
+            title="Tambah Pinjaman"
+            onPress={() => {
+              navigation.navigate('ShowWeb', {
+                link: webURL + 'pinjaman/add2/' + ITEM.id_anggota,
+                judul: 'Tambah Pinjaman',
+              });
+            }}
+          />
+        )}
+
+        {ITEM.boleh_pinjam == 0 && (
+          <Text
+            style={{
+              fontFamily: fonts.secondary[600],
+              fontSize: 12,
+              textAlign: 'center',
+              color: colors.danger,
+            }}>
+            Masih ada pinjaman yang belum lunas
+          </Text>
+        )}
       </View>
+
       {data.pinjaman.map((item, index) => (
         <TouchableWithoutFeedback
           onPress={() => {

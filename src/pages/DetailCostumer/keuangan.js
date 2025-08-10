@@ -231,15 +231,17 @@ export default function TambahKeuangan({navigation, route}) {
                       style={{
                         flex: 1,
                       }}>
-                      <MyButton
-                        title="Edit"
-                        onPress={() =>
-                          navigation.navigate('ShowWeb', {
-                            link: webURL + 'cicilan/edit2/' + item.id_cicilan,
-                            judul: 'Edit Cicilan',
-                          })
-                        }
-                      />
+                      {user.level == 'Pengurus' && (
+                        <MyButton
+                          title="Edit"
+                          onPress={() =>
+                            navigation.navigate('ShowWeb', {
+                              link: webURL + 'cicilan/edit2/' + item.id_cicilan,
+                              judul: 'Edit Cicilan',
+                            })
+                          }
+                        />
+                      )}
                     </View>
                     <View
                       style={{
